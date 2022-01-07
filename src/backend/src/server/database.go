@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"log"
-	"time"
 
 	"github.com/google/uuid"
 )
@@ -13,7 +12,7 @@ import (
 // again, not the best design, but since we'll probably not change this much, makes sense to decouple
 type Item struct {
 	Id uuid.UUID
-	Data []byte
+	Data string
 }
 
 // change these implementations if we want to change the db we use
@@ -51,7 +50,7 @@ func (s *Server) GetItemFromId(ctx context.Context, key string) (*Item, error) {
 	}
 	return &Item{
 		Id: id,
-		Data: []byte(value),
+		Data: value,
 	}, nil
 }
 
@@ -64,9 +63,9 @@ func (s *Server) DeleteItemFromId(ctx context.Context, key string) error {
 	return nil
 }
 
-func (s *Server) CreateNewItem(ctx context.Context, data []byte) (string, error) {
+func (s *Server) CreateNewItem(ctx context.Context, data string) (string, error) {
 	newUUId := uuid.New()
-	err := s.redisDb.Set(ctx, newUUId.String(), data, time.Second).Err()
+	err := s.redisDb.Set(ctx, newUUId.String(), data, 0).Err()
 	if err != nil {
 		log.Printf("Could not create new item: %v", err)
 		return "", err
@@ -74,8 +73,8 @@ func (s *Server) CreateNewItem(ctx context.Context, data []byte) (string, error)
 	return newUUId.String(), nil
 }
 
-func (s *Server) UpdateItem(ctx context.Context, key string, data []byte) error {
-	err := s.redisDb.Set(ctx, key, data, time.Second).Err()
+func (s *Server) UpdateItem(ctx context.Context, key string, data string) error {
+	err := s.redisDb.Set(ctx, key, data, 0).Err()
 	if err != nil {
 		log.Printf("Could not update item: %v", err)
 		return err
