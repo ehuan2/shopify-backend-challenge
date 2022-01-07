@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  frontend:
+    image: ehuan2/shopify-backend-challenge-frontend:latest
+    ports:
+      - 80:80
+    command: ["npm", "start"]
+    env_file: ./conf/.env-frontend
+
+  backend:
+    image: ehuan2/shopify-backend-challenge-backend:latest
+    ports:
+      - 8080:8080
+    command:
+      - /go/bin/app
+      - server
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379
+    volumes:
+      - redis-data:/redis-data
+
+volumes:
+  redis-data:

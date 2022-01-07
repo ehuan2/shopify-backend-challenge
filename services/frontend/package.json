@@ -1,0 +1,14 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "The frontend for the shopify backend challenge that serves the html pages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Huang",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
