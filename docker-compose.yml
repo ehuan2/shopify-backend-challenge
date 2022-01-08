@@ -16,6 +16,17 @@ services:
       - /go/bin/app
       - server
 
+  # uses the same image as the backend! just different command :)
+  # also uses a volume to save csv files into it
+  csv:
+    image: ehuan2/shopify-backend-challenge-backend:latest
+    ports:
+      - 8081:8081
+    command:
+      - /go/bin/app
+      - csv
+      - csv-data:/csv-data
+
   redis:
     image: redis:latest
     ports:
@@ -25,3 +36,4 @@ services:
 
 volumes:
   redis-data:
+  csv-data:
