@@ -6,6 +6,11 @@ import (
 	"log"
 	"net/http"
 )
+type data struct {
+	Metadata string
+	Type string
+	Cost float64
+}
 
 func (s *Server) crud(w http.ResponseWriter, r *http.Request, id string) {
 	body, err := ioutil.ReadAll(r.Body)
@@ -59,10 +64,7 @@ func (s *Server) handleSingleDeleteRequest(w http.ResponseWriter, r *http.Reques
 }
 
 func (s *Server) handlePutRequest(w http.ResponseWriter, r *http.Request, body []byte, id string) error {
-	type data struct {
-		Data string
-	}
-
+	// this unmarshalling is just a check to make sure it's wellformed
 	var getBody data
 	err := json.Unmarshal(body, &getBody)
 
@@ -72,7 +74,7 @@ func (s *Server) handlePutRequest(w http.ResponseWriter, r *http.Request, body [
 		return err
 	}
 
-	err = s.UpdateItem(r.Context(), id, getBody.Data)
+	err = s.UpdateItem(r.Context(), id, string(body))
 	if err != nil {
 		http.Error(w, "could not create new item...", http.StatusInternalServerError)	
 		return err

@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"github.com/google/uuid"
@@ -12,7 +13,7 @@ import (
 // again, not the best design, but since we'll probably not change this much, makes sense to decouple
 type Item struct {
 	Id uuid.UUID
-	Data string
+	Data data
 }
 
 // change these implementations if we want to change the db we use
@@ -48,9 +49,18 @@ func (s *Server) GetItemFromId(ctx context.Context, key string) (*Item, error) {
 		log.Printf("Could not parse key: %v", err)
 		return nil, err
 	}
+
+	// parse for the data
+	var data data
+	err = json.Unmarshal([]byte(value), &data)
+	if err != nil {
+		log.Printf("Could not unmarshal value to data: %v", err)
+		return nil, err
+	}
+
 	return &Item{
 		Id: id,
-		Data: value,
+		Data: data,
 	}, nil
 }
 

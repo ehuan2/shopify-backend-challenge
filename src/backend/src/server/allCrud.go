@@ -59,19 +59,16 @@ func (s *Server) handleDeleteRequest(w http.ResponseWriter, r *http.Request, bod
 }
 
 func (s *Server) handlePostRequest(w http.ResponseWriter, r *http.Request, body []byte) error {
-	type data struct {
-		Data string 
-	}
+	// this unmarshalling is really just a check to make sure that it's well formed
 	var getBody data
 	err := json.Unmarshal(body, &getBody)
-
 	if err != nil {
 		log.Printf("Error parsing body into struct: %v", err)
 		http.Error(w, "malformed body", http.StatusBadRequest)
 		return err
 	}
 
-	newId, err := s.CreateNewItem(r.Context(), getBody.Data)
+	newId, err := s.CreateNewItem(r.Context(), string(body))
 	if err != nil {
 		http.Error(w, "could not create new item...", http.StatusInternalServerError)	
 		return err
