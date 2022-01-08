@@ -7,54 +7,72 @@
     <title>Simple CRUD</title>
 </head>
 <body>
-  <button id="new-goose"></button>
-  <button id="get-geese">Find Geese</button>
-  <p id="goose"></p>
-  <p id="counter"></p>
+    <form>
+        <label for="new-data">Data:</label><br>
+        <input type="text" id="new-data" name="fname"><br>
+        <button id="new-item">New Item</button><br>
+    </form>
+    <form>
+        <label for="update-id">Id:</label><br>
+        <input type="text" id="update-id" name="fname"><br>
+        <label for="update-data">Updated Data:</label><br>
+        <input type="text" id="update-data" name="fname"><br>
+        <button id="update-item">Update Item</button><br>
+    </form>
+    <form>
+        <label for="delete-id">Id:</label><br>
+        <input type="text" id="delete-id" name="fname"><br>
+        <button id="delete-item">Delete Item</button><br>
+    </form>
+    <form>
+        <label for="id">Id:</label><br>
+        <input type="text" id="find-id" name="fname"><br>
+        <button id="find-item">Find Item</button><br>
+    </form>
 
-  <ul id="geese"></ul>
+  <button id="get-items">Find All Items</button><br>
+
+  <p id="items"></p>
 
   <script>
       // Get DOM elements
-      const body = document.querySelector("body");
-      const newGoose = document.getElementById("new-goose");
-      const getGeese = document.getElementById("get-geese");
+      const new_item_button = document.getElementById("new-item")
+      const new_item_data = document.getElementById("new-data")
 
-      const goose = document.getElementById("goose");
-      const counter = document.getElementById("counter");
-      const geese = document.getElementById("geese");
+      const update_item_button = document.getElementById("update-item")
+      const update_item_data = document.getElementById("update-data")
+      const update_item_id = document.getElementById("update-id")
 
-      function addGoose(goose) {
-          const li = document.createElement("li")
-          li.innerHTML = "Nickname: " + goose.nickname + " Coordinates: (" + goose.coordinates.x + ", " + goose.coordinates.y + ")"
-          geese.appendChild(li)
-      }
+      const delete_item_button = document.getElementById("delete-item")
+      const delete_item_id = document.getElementById("delete-id")
 
-      // new goose
-      newGoose.onclick = (event) => {
-          fetch('http://localhost:8080/goose', {
-              method: 'POST',
-          })
-          .then(resp => resp.json())
-          .then(function(json) {
-              console.log(json)
-              goose.innerHTML = "New Goose:" + JSON.stringify(json)
-              geese.innerHTML = ""
-              counter.innerHTML = ""
-          })
-          .catch(error => console.error(error))
-      }
+      const find_item_button = document.getElementById("find-item")
+      const find_item_id = document.getElementById("find-id")
 
-      getGeese.onclick = (event) => {
-          fetch('http://localhost:8080/goose', {
+      const find_all_items = document.getElementById("get-items")
+      const items = document.getElementById("items")
+
+      const url = 'http://localhost:8080/items'
+
+      find_all_items.onclick = (event) => {
+          fetch(url, {
               method: 'GET',
           })
           .then(resp => resp.json())
           .then(function(json) {
-              console.log(json)
-              geese.innerHTML = "" // clears it first
-              json.geese.forEach(addGoose) // goes through each one to add it
-              counter.innerHTML = "Counter: " + json.counter // adds counter
+            items.innerHTML = "All Items: " + JSON.stringify(json)
+          })
+          .catch(error => console.error(error))
+      }
+
+      find_item_button.onclick = (event) => {
+          fetch(url, {
+            method: 'GET',
+            body: JSON.stringify({'id': find_item_id.innerText})
+          })
+          .then(resp => resp.json())
+          .then(function(json) {
+            items.innerHTML = "Item by Id: " + JSON.stringify(json)
           })
           .catch(error => console.error(error))
       }
