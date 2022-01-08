@@ -27,8 +27,6 @@ func (s *Server) crud(w http.ResponseWriter, r *http.Request, id string) {
 		s.handlePutRequest(w, r, body, id)
 		return
 	}
-
-	http.Error(w, "method not supported", http.StatusMethodNotAllowed)
 }
 
 func (s *Server) handleSingleGetRequest(w http.ResponseWriter, r *http.Request, body []byte, id string) error {

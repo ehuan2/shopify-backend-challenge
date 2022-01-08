@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,9 +34,6 @@ func (s *Server) allCrud(w http.ResponseWriter, r *http.Request) {
 		err = s.handlePostRequest(w, r, body)
 		return
 	}
-
-	http.Error(w, "method not supported", http.StatusMethodNotAllowed)
-	err = errors.New("unsupported method")
 }
 
 func (s *Server) handleGetRequest(w http.ResponseWriter, r *http.Request, body []byte) error {

@@ -44,6 +44,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 
 	// cors stuff
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 	w.Header().Set("Content-Type", "application/json")
 
 	// then we check if the rest exists (/) means that it doesn't
