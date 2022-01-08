@@ -45,7 +45,8 @@ func (s *Server) csv(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// first set a necessary header
+	// first set necessary headers, for csv exports + cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Disposition", "attachment; filename=export.csv")
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Transfer-Encoding", "chunked")

@@ -33,7 +33,9 @@
     <label for="id">Id:</label>
     <input type="text" id="find-id" name="fname"><br/>
     <button id="find-item">Find Item</button>
-    <button id="get-items">Find All Items</button><br>
+    <button id="get-items">Find All Items</button><br/>
+
+    <button id="get-csv">Generate CSV File</button><br>
 
   <p id="items"></p>
 
@@ -58,7 +60,24 @@
       const find_item_id = document.getElementById("find-id")
       const find_all_items = document.getElementById("get-items")
 
+      const csv_items = document.getElementById("get-csv")
       const items = document.getElementById("items")
+
+      csv_items.onclick = (event) => {
+        fetch("http://localhost:8081/", {
+          method: 'GET'
+        })
+        .then(resp => resp.blob())
+        .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = "data.csv";
+          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+          a.click();    
+          a.remove();  //afterwards we remove the element again   
+        })
+      }
 
       const url = 'http://localhost:8080/items/'
 
