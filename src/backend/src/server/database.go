@@ -63,6 +63,24 @@ func (s *Server) DeleteItemFromId(ctx context.Context, key string) error {
 	return nil
 }
 
+func (s *Server) DeleteAllItems(ctx context.Context) error {
+	keys, err := s.redisDb.Keys(ctx, "*").Result()
+	if err != nil {
+		log.Printf("Could not get all keys %v", err)
+		return err
+	}
+
+	for _, key := range keys {
+		err := s.DeleteItemFromId(ctx, key)
+		if err != nil { // nil check the item
+			log.Printf("Could not get item with id: %v", err)
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (s *Server) CreateNewItem(ctx context.Context, data string) (string, error) {
 	newUUId := uuid.New()
 	err := s.redisDb.Set(ctx, newUUId.String(), data, 0).Err()

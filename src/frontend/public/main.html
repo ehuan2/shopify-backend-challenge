@@ -7,28 +7,20 @@
     <title>Simple CRUD</title>
 </head>
 <body>
-    <form>
-        <label for="new-data">Data:</label><br>
-        <input type="text" id="new-data" name="fname"><br>
-        <button id="new-item">New Item</button><br>
-    </form>
-    <form>
-        <label for="update-id">Id:</label><br>
-        <input type="text" id="update-id" name="fname"><br>
-        <label for="update-data">Updated Data:</label><br>
-        <input type="text" id="update-data" name="fname"><br>
-        <button id="update-item">Update Item</button><br>
-    </form>
-    <form>
-        <label for="delete-id">Id:</label><br>
-        <input type="text" id="delete-id" name="fname"><br>
-        <button id="delete-item">Delete Item</button><br>
-    </form>
-    <form>
-        <label for="id">Id:</label><br>
-        <input type="text" id="find-id" name="fname"><br>
-        <button id="find-item">Find Item</button><br>
-    </form>
+    <label for="new-data">Data:</label><br>
+    <input type="text" id="new-data" name="fname"><br>
+    <button id="new-item">New Item</button><br>
+    <label for="update-id">Id:</label><br>
+    <input type="text" id="update-id" name="fname"><br>
+    <label for="update-data">Updated Data:</label><br>
+    <input type="text" id="update-data" name="fname"><br>
+    <button id="update-item">Update Item</button><br>
+    <label for="delete-id">Id:</label><br>
+    <input type="text" id="delete-id" name="fname"><br>
+    <button id="delete-item">Delete Item</button><br>
+    <label for="id">Id:</label><br>
+    <input type="text" id="find-id" name="fname"><br>
+    <button id="find-item">Find Item</button><br>
 
   <button id="get-items">Find All Items</button><br>
 
@@ -66,9 +58,8 @@
       }
 
       find_item_button.onclick = (event) => {
-          fetch(url, {
+          fetch(url + "?id=" + find_item_id.innerText, {
             method: 'GET',
-            body: JSON.stringify({'id': find_item_id.innerText})
           })
           .then(resp => resp.json())
           .then(function(json) {
