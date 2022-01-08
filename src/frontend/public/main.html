@@ -136,7 +136,7 @@
       update_item_button.onclick = (event) => {
           fetch(url + update_item_id.value, {
             method: 'PUT',
-            body: JSON.stringify({'metadata': update_item_data.value, 'cost': parseFloat(update_item_data.value), 'type': update_item_type.value})
+            body: JSON.stringify({'metadata': update_item_data.value, 'cost': parseFloat(update_item_cost.value), 'type': update_item_type.value})
           })
           .then(resp => resp.text())
           .then(function(text) {
