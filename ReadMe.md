@@ -41,6 +41,7 @@ I will explain the following choices:
 2. Use of basically no framework and Go instead of something like Apollo for a GraphQL API
 3. Use of Redis
 
+These are the reasons behind my choices:
 1. In terms of using Docker + microservices, I used this combination because it allows for more flexibility of changing the backend in the future. What I discovered with microservices is that if you want more features, but in different languages because of a certain library, or one team is better at that framework, etc., instead of rewriting your old code and updating it, you can split up your code into smaller chunks that communicate with each other. One fun thing I did before was do a hackathon where the backend was in 4 or so different frameworks. Anyways, it's kinda perfect for this challenge because I was able to split up the csv generation and the crud into two different parts, where if I messed up the csv generation, then the crud would still be untouched by that mess up.
 
 2. I used Golang for a couple reasons. First, I'm just really comfortable with it, at least in comparison to other languages since I used it at my last co-op. Second, Golang is quite fast and allows to scale up in comparison to lots of other perhaps slower languages. In terms of no framework, the truth is that I'm not too too familiar with a lot of the frameworks that Go can use, and using no framework is honestly just a lot clearer on what happens, instead of being obfuscated by lots and lots of set-up and library code.
